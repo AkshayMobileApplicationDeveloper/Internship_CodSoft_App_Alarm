@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     Button button;
     PendingIntent pendingIntent;
     static final int ALARM_REQ_CODES=100;
+    AudioManager audioManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +41,16 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("TAG", "onClick: "+idEditTime.getText().toString()  );
                 int time =Integer.parseInt(idEditTime.getText().toString());
                 Log.d("TAG", "onClick: "+time);
-                long    triggleTime =System.currentTimeMillis()+(time*1000);
+                long    triggleTime =System.currentTimeMillis()+(time);
 
-                Intent iBroadCast=new Intent(getApplicationContext(), MyReceverBoardCast.class);
+               
+                int result = audioManager.requestAudioFocus(null, AudioManager.STREAM_RING, AudioManager.AUDIOFOCUS_GAIN);
+                if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                    Intent iBroadCast=new Intent(getApplicationContext(), MyReceverBoardCast.class);
 
-                pendingIntent=PendingIntent.getBroadcast(getApplicationContext(),ALARM_REQ_CODES,iBroadCast,PendingIntent.FLAG_UPDATE_CURRENT);
-                alarmManager.set(AlarmManager.RTC_WAKEUP,triggleTime,pendingIntent);
+                    pendingIntent=PendingIntent.getBroadcast(getApplicationContext(),ALARM_REQ_CODES,iBroadCast,PendingIntent.FLAG_UPDATE_CURRENT);
+                    alarmManager.set(AlarmManager.RTC_WAKEUP,triggleTime,pendingIntent);
+                }
 
 
             }
@@ -54,3 +60,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 }
+
+
+

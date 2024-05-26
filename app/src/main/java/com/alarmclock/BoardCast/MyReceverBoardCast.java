@@ -17,7 +17,7 @@ public class MyReceverBoardCast extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         mediaPlayer=MediaPlayer.create(context, Settings.System.DEFAULT_RINGTONE_URI);
-        mediaPlayer.setLooping(true);
+        mediaPlayer.setLooping(false);
         mediaPlayer.start();
         Log.e("TAG", "onReceive: Start Alarm" );
 

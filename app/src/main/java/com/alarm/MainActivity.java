@@ -1,4 +1,4 @@
-package com.alarmclock;
+package com.alarm;
 
 import androidx.appcompat.app.AppCompatActivity;
 
